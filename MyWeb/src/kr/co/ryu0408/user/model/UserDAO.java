@@ -85,14 +85,58 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public int userCheck(String id, String pw) {
-		// TODO Auto-generated method stub
+		// 아이디가 있는지를 조회하여 그 아이디에 같이 매핑되어있는
+		// 비밀번호를 얻은 후, 매개값으로 받은 비밀번호와 같은지 대조하여
+		// return값을 조정해 주시면 되겠습니다.
+		String sql = "SELECT * FROM user WHERE id=?";
+		int check = 0;
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			// 객체를 보내주고 있어서 getter를 통해서 받아야함
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {//아이디가 존재함
+				String dbPw = rs.getString("user_pw");//DB에 저장된 비밀번호
+				if(dbPw.contentEquals(pw)) {
+					check = 1;
+				}else { // 비밀번호가 다를경우
+					check = 0;
+				}
+			}else {//아이디가 존재하지 않음
+				check = -1;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return 0;
 	}
 
 	@Override
 	public UserVO getMemberInfo(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM user WHERE user_id=?";
+		UserVO vo = null;
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo = new UserVO();
+				vo.setId(rs.getString("user_id"));
+				vo.setPw(rs.getString("user_pw"));
+				vo.setName(rs.getString("user_name"));
+				vo.setEmail(rs.getString("user_email"));
+				vo.setAddress(rs.getString("user_address"));
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return vo;
 	}
 
 	@Override
