@@ -21,7 +21,7 @@ function joinConfirm(){
 	
 	if(document.reg_form.name.value == 0) {
 		alert("이름은 필수 사항입니다");
-		reg_form.id.focus();
+		reg_form.name.focus();
 		return;
 	}
 	//id의 값의 길이
