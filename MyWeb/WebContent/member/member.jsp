@@ -6,7 +6,7 @@
 
 </head>
 <body>
-
+<jsp:include page="../include/header.jsp"/>
 
 <div class="container">
 		<div class="row">
@@ -103,6 +103,7 @@
     <!-- /.container -->
     
    
+<jsp:include page="../include/footer.jsp"/>
 	
 </body>
 </html>

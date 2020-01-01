@@ -88,7 +88,7 @@ public class UserDAO implements IUserDAO {
 		// 아이디가 있는지를 조회하여 그 아이디에 같이 매핑되어있는
 		// 비밀번호를 얻은 후, 매개값으로 받은 비밀번호와 같은지 대조하여
 		// return값을 조정해 주시면 되겠습니다.
-		String sql = "SELECT * FROM user WHERE id=?";
+		String sql = "SELECT * FROM user WHERE user_id=?";
 		int check = 0;
 		
 		try(Connection conn = ds.getConnection();
