@@ -30,7 +30,7 @@
 			alert("아이디가 중복되었습니다.");
 			history.back();
 		</script>
-	<%}else{ //이미 가입된 회언이 없을 경우
+	<%}else{ //이미 가입된 회원이 없을 경우
 		UserVO vo = new UserVO(id, pw, name, email, address);
 	
 		if(dao.insertMember(vo)){%>

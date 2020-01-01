@@ -62,8 +62,25 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public boolean insertMember(UserVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		String sql = "INSERT INTO user VALUES(?,?,?,?,?)";
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			// 객체를 보내주고 있어서 getter를 통해서 받아야함
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(1, vo.getPw());
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(1, vo.getEmail());
+			pstmt.setString(1, vo.getAddress());
+			
+			if(pstmt.executeUpdate() == 1) flag = true;
+			else flag = false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 	@Override
