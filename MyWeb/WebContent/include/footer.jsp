@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<jsp:include page="header.jsp"/>
+
    <!--Footer-->
   <footer>
     <div class="container">
@@ -44,8 +44,10 @@
         </div>
       </div>
     </div>
+    
 
   </footer>
+  
  
 </body>
 </html>
