@@ -160,13 +160,27 @@ public class UserDAO implements IUserDAO {
 	}
 	@Override
 	public boolean updateUser(UserVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "UPDATE user SET user_name=?, user_email=?, user_address=?, WHERE user_id=?";
+		boolean flag=false;
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getEmail());
+			pstmt.setString(3, vo.getAddress());
+			pstmt.setString(4, vo.getId());
+			
+			if(pstmt.executeUpdate()==1) flag = true;
+			else flag =false;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 	@Override
 	public boolean deleteUser(String id) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
