@@ -180,8 +180,19 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public boolean deleteUser(String id) {
-
-		return false;
+		String sql = "DELETE FROM member WHERE id=?";
+		boolean flag=false;
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+				pstmt.setString(1, id);
+			
+			if(pstmt.executeUpdate()==1) flag = true;
+			else flag =false;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 }
