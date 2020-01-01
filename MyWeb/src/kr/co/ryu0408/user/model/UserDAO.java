@@ -1,5 +1,10 @@
 package kr.co.ryu0408.user.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -37,9 +42,22 @@ public class UserDAO implements IUserDAO {
 	
 	//2. 외부에서 객체생성 할 수 없도록 생성자에 private 제한 붙이기
 	@Override
-	public boolean confirmId(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean confirmId(String id)  {
+		boolean flag = false;
+		//자바 8버전부터 추가된 try안에 객체를 생성하면 try가 끝나면 자동으로 닫아줌.
+		String sql = "SELECT * FROM user WHERE user_id=?";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) flag = true; //아이디가 존재함
+			else flag = false; //아이디가 존재함
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 
 	@Override
