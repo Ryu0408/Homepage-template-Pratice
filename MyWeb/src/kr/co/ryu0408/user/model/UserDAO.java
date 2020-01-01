@@ -112,7 +112,7 @@ public class UserDAO implements IUserDAO {
 			e.printStackTrace();
 		}
 
-		return 0;
+		return check;
 	}
 
 	@Override
@@ -141,10 +141,23 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public boolean changePassword(String id, String pw) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		String sql = "UPDATE user SET user_pw=? WHERE user_id=?";
+		UserVO vo = null;
+		boolean flag = false;
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			
+			if(pstmt.executeUpdate()==1) flag = true;
+			else flag =false;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return flag;
 
+	}
 	@Override
 	public boolean updateUser(UserVO vo) {
 		// TODO Auto-generated method stub
