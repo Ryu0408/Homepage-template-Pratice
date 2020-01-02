@@ -45,7 +45,7 @@
 	
 	<%-- 모든 구구단(2~9)을 jstl 태그로 출력하세요. --%>
 	<c:forEach var = "dan" begin = "2" end = "9">
-		구구단 ${dan }단<br><hr>
+		구구단 ${dan }단단<br><hr>
 		<c:forEach var = "hang" begin = "1" end = "9">
 			${dan} X ${hang} = ${dan*hang}<br>
 		</c:forEach>
