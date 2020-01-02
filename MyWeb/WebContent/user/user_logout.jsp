@@ -5,6 +5,6 @@
 %>
 
 <script>
-	aleart("로그아웃 처리되었습니다..");
+	aleart("로그아웃 처리되었습니다.");
 	location.href="/MyWeb";
 </script>
