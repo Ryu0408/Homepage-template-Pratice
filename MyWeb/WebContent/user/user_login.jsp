@@ -35,7 +35,7 @@
 	
 		if(dao.insertMember(vo)){%>
 		<script>
-			alert("아이디가 중복되었습니다.");
+			alert("회원가입을 축하합니다..");
 			history.back();
 		</script>
 		<%}else{ %>
