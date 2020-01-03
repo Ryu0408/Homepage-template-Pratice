@@ -38,7 +38,7 @@ public class RegisterController extends HttpServlet {
 		UserDAO dao = UserDAO.getInstance();
 		
 		if(dao.confirmId(id)) {
-			System.out.println("아이디가 중복되었ㅅ브니다.");
+			System.out.println("아이디가 중복되었습니다.");
 			return;
 		}else {
 			UserVO vo = new UserVO(id, pw, name, email, address);
@@ -49,12 +49,12 @@ public class RegisterController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			String htmlCode;
 			if(result) {
-				htmlCode = "<script>\r\n +"
+				htmlCode = "<script>\r\n"
 						+ "        alert(\"회원가입을 축하합니다!\");\r\n"
 						+"         loacation.href=\"/MyWeb/user/user_login.jsp\";\r\n"
 						+ "</script>";
 			}else {
-				htmlCode = "<script>\r\n +"
+				htmlCode = "<script>\r\n"
 						+ "        alert(\"회원 가입에 실패했습니다!!\");\r\n"
 						+"         history.back();\r\n"
 						+ "</script>";

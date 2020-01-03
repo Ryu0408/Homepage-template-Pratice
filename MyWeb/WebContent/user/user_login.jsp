@@ -5,44 +5,39 @@
 <%
 
 	/*
-		1. 폼 액션으로 날아온 폼 데이터들(parameters)을 얻어옴.
-		2. DAO객체를 공개된 메서드를 호출하여 주소값을 얻어오기
-		3. 회원가입 승인 전에 이미 DB에 존재하는 ID인지 검사.
-		String sql = "SELECT * FROM user WHERE user_id=?"
-		이미 회우너가입된 id라면 aleart으로 아이디가 중복되었다고 경고한 후 뒤로가기 실행
-		4. 가입된 회원이 안리 경우 객체에 포장 후 회원가입을 승인
-		회원가입을 축하합니다ㅣ! -> location.href="user_login.jsp"
-		회원가입 실패했습니다! -> 뒤로가기
+		1. 파라미터값 얻어오기
+		2. DAO 주소값 얻어오기
+		3. 로그인 유효성 검증 메서드(userCheck) 호출하기
+		// 아이디가 없으면 스크립트로 경고장 출력 후 뒤로가기 진행
+		// 비밀번호가 틀린 경우 비밀번호 틀렸다고 ㄱ경고장 출력 후 뒤로가기
+		// 로그인 성공인 경우 user_mypage.jsp로 리다이렉팅
+		// 이름과 id값으로 각각 세션 하나씩 생성(user_name, user_id)
 	*/
 	
-	request.setCharacterEncoding("utf-8");//한글 인코딩
-	
+	request.setCharacterEncoding("utf-8");
+
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
-	String name = request.getParameter("name");
-	String email = request.getParameter("email");
-	String address = request.getParameter("address");
 	
 	UserDAO dao = UserDAO.getInstance();
 	
-	if(dao.confirmId(id)){ %>
-		<script>
-			alert("아이디가 중복되었습니다.");
-			history.back();
-		</script>
-	<%}else{ //이미 가입된 회원이 없을 경우
-		UserVO vo = new UserVO(id, pw, name, email, address);
+	int result = dao.userCheck(id, pw);
 	
-		if(dao.insertMember(vo)){%>
-		<script>
-			alert("회원가입을 축하합니다..");
-			history.back();
-		</script>
-		<%}else{ %>
-		<script>
-			alert("회원가입에 실패했습니다.");
-			history.back();
-		</script>
-		<%}
+	if(result==-1){%>
+	<script>
+		aleart("아이디가 존재하지 않습니다.");
+		history.back();
+	</script>
+	<%}else if(result==0){%>
+	<script>
+		aleart("아이디가 비밀번호가 틀렸습니다.");
+		history.back();		
+	<%}else{ //로그인 성공
+		UserVO vo = dao.getMemberInfo(id);
+		String name = vo.getName();
+	
+		session.setAttribute("user_name", name);
+		session.setAttribute("user_id", id);
+		response.sendRedirect("user_mypage.jsp");
 	}
 %>
